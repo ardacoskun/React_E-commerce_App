@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import { baseService } from "../network/services/baseService.js";
 import reducer from "./reducer.js";
 
 const AppContext = React.createContext();
@@ -13,19 +12,8 @@ const AppProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      const data = await baseService.get("/categories");
-      setCategories(data);
-    } catch (error) {
-      console.log("category list error", error);
-    }
+  const addToCart = (product) => {
+    dispatch({ type: "ADD_PRODUCT", payload: product });
   };
 
   const clearCart = () => {
@@ -44,10 +32,6 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "DECREASE", payload: id });
   };
 
-  const addToCart = (product) => {
-    dispatch({ type: "ADD_PRODUCT", payload: product });
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -57,7 +41,6 @@ const AppProvider = ({ children }) => {
         increase,
         decrease,
         addToCart,
-        categories,
         loading,
         setLoading,
       }}

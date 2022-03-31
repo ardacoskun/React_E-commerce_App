@@ -25,6 +25,7 @@ const CategoryList = () => {
       .get("/orders")
       .then((data) => {
         setOrders(data.reverse());
+        setRefresh((prev) => !prev);
         setLoading(false);
       })
       .catch((err) => {

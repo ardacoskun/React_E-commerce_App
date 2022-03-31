@@ -3,16 +3,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { baseService } from "../network/services/baseService";
 import styled from "styled-components";
 import Navbar from "./Navbar";
-
-import Footer from "./Footer";
 import { ArrowLeftOutlined } from "@material-ui/icons";
 
 const SupplierDetailPage = () => {
   const [supplier, setSupplier] = useState({});
-  // const params = useParams()
   const { id } = useParams();
   const navigate = useNavigate();
-  // const location = useLocation();
   const { state } = useLocation();
 
   useEffect(() => {
@@ -39,7 +35,7 @@ const SupplierDetailPage = () => {
         <ArrowLeftOutlined />
       </button>
       <Wrapper>
-        <h1>Detail Page:</h1>
+        <h1>Detail Page</h1>
         <Table>
           <Tr>
             <Th>Product ID</Th>

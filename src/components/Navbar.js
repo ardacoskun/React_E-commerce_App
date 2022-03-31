@@ -87,6 +87,7 @@ const Button = styled.button`
   border: none;
   background-color: inherit;
   padding: 20px;
+  font-weight: bold;
 
   &:hover {
     text-decoration: underline;

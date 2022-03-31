@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useAppContext } from "../context/AppContext";
 import { useEffect, useState } from "react";
-import uuid from "react-uuid";
 
 const Cart = () => {
   const { cart, clearCart, remove, increase, decrease } = useAppContext();
@@ -63,7 +62,19 @@ const Cart = () => {
       <Navbar />
 
       {cart.length === 0 ? (
-        <Wrapper>Your bag is empty</Wrapper>
+        <Wrapper>
+          <Summary
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "30px",
+              fontWeight: "bold",
+            }}
+          >
+            <SummaryItemText>Your bag is empty.</SummaryItemText>
+          </Summary>
+        </Wrapper>
       ) : (
         <Wrapper>
           <Title>YOUR BAG</Title>
@@ -119,19 +130,6 @@ const Cart = () => {
               );
             })}
             <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-              <SummaryItem>
-                <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>$ 80</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Shipping Discount</SummaryItemText>
-                <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-              </SummaryItem>
               <SummaryItem type="total">
                 <SummaryItemText>Total</SummaryItemText>
                 <SummaryItemPrice>$ {totalPrice}</SummaryItemPrice>

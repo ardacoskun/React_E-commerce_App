@@ -1,8 +1,69 @@
 import { Facebook, Instagram, Twitter } from "@material-ui/icons";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
+import { baseService } from "../network/services/baseService";
+
+const Footer = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const data = await baseService.get("/categories");
+      setCategories(data);
+    } catch (error) {
+      console.log("category list error", error);
+    }
+  };
+
+  return (
+    <Wrapper>
+      <Left>
+        <Logo>ShopNow</Logo>
+        <Description>Online shopping site for everyone</Description>
+        <SocialMedia>
+          <Icon>
+            <Facebook />
+          </Icon>
+          <Icon>
+            <Instagram />
+          </Icon>
+          <Icon>
+            <Twitter />
+          </Icon>
+        </SocialMedia>
+      </Left>
+      <Center>
+        <Title>Categories</Title>
+        <List>
+          {categories.map((item) => {
+            return (
+              <ListItem key={item.id}>
+                <Link
+                  to={`/categories/${item.id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  {" "}
+                  {item.name}{" "}
+                </Link>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Center>
+      <Right>
+        <Title>Contact</Title>
+        <ContactItem>935 E. Lawrence St. Moncks Corner, SC 29461</ContactItem>
+        <ContactItem>0850 208 71 71</ContactItem>
+        <ContactItem>support@techcareer.net</ContactItem>
+      </Right>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,53 +128,5 @@ const ContactItem = styled.div`
   display: flex;
   align-items: center;
 `;
-
-const Footer = () => {
-  const { categories } = useAppContext();
-
-  return (
-    <Wrapper>
-      <Left>
-        <Logo>ShopNow</Logo>
-        <Description>Online shopping site for everyone</Description>
-        <SocialMedia>
-          <Icon>
-            <Facebook />
-          </Icon>
-          <Icon>
-            <Instagram />
-          </Icon>
-          <Icon>
-            <Twitter />
-          </Icon>
-        </SocialMedia>
-      </Left>
-      <Center>
-        <Title>Categories</Title>
-        <List>
-          {categories.map((item) => {
-            return (
-              <ListItem key={item.id}>
-                <Link
-                  to={`/categories/${item.id}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {" "}
-                  {item.name}{" "}
-                </Link>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Center>
-      <Right>
-        <Title>Contact</Title>
-        <ContactItem>935 E. Lawrence St. Moncks Corner, SC 29461</ContactItem>
-        <ContactItem>0850 208 71 71</ContactItem>
-        <ContactItem>support@techcareer.net</ContactItem>
-      </Right>
-    </Wrapper>
-  );
-};
 
 export default Footer;
