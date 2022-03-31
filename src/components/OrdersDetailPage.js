@@ -20,7 +20,7 @@ const SupplierDetailPage = () => {
   }, []);
 
   const getData = async () => {
-    const data = await baseService.get("/suppliers/" + id);
+    const data = await baseService.get("/orders/" + id);
 
     const arda = state?.data?.details.map((item) => {
       console.log("item", item.productId);
@@ -50,17 +50,10 @@ const SupplierDetailPage = () => {
           {state?.data?.details.map((item) => {
             return (
               <Tr>
-                <Td>{item.productId}</Td>
+                <Td>{item.id}</Td>
                 <Td> ${item.unitPrice}</Td>
                 <Td>{item.quantity}</Td>
-                <Td>
-                  {" "}
-                  Total: $
-                  {Number(
-                    state?.data?.details[0].unitPrice *
-                      state?.data?.details[0].quantity
-                  )}
-                </Td>
+                <Td> ${Number(item.unitPrice * item.quantity)}</Td>
               </Tr>
             );
           })}

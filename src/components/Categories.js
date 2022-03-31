@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useAppContext } from "../context/AppContext";
+import Loading from "./Loading";
 
 var settings = {
   dots: true,
@@ -75,7 +76,7 @@ const Categories = () => {
     <div style={{ marginBottom: "10px" }}>
       <h2 style={{ textAlign: "center", marginTop: "50px" }}>Categories </h2>
       {loading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <Slider {...settings}>
           {categories.map((category) => {

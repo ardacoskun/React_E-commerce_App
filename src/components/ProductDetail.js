@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useAppContext } from "../context/AppContext";
 import { baseService } from "../network/services/baseService";
 import Footer from "./Footer";
+import Loading from "./Loading";
 import Navbar from "./Navbar";
 
 const Wrapper = styled.div`
@@ -83,7 +84,7 @@ const ProductDetail = () => {
   const params = useParams();
   const productId = params.productId;
 
-  const { addToCart } = useAppContext();
+  const { addToCart, loading, setLoading } = useAppContext();
 
   useEffect(() => {
     getProducts();
@@ -93,6 +94,7 @@ const ProductDetail = () => {
     try {
       const data = await baseService.get(`/products/${productId}`);
       setProduct(data);
+      setLoading(false);
     } catch (error) {
       console.log("product detail error", error);
     }
@@ -103,7 +105,11 @@ const ProductDetail = () => {
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src={`https://picsum.photos/id/${product.id}/500/500`} />
+          {loading ? (
+            <Loading />
+          ) : (
+            <Image src={`https://picsum.photos/id/${product.id}/500/500`} />
+          )}
         </ImgContainer>
         <InfoContainer>
           <Title>{product.name}</Title>
@@ -126,6 +132,7 @@ const ProductDetail = () => {
           </CartContainer>
         </InfoContainer>
       </Wrapper>
+      )
       <Footer />
     </div>
   );

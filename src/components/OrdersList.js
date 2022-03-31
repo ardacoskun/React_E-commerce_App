@@ -5,6 +5,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "./Navbar";
 
 import styled from "styled-components";
+import Loading from "./Loading";
+import { useAppContext } from "../context/AppContext";
 
 const CategoryList = () => {
   const [orders, setOrders] = useState([]);
@@ -12,6 +14,7 @@ const CategoryList = () => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { loading, setLoading } = useAppContext();
 
   useEffect(() => {
     getData();
@@ -22,8 +25,12 @@ const CategoryList = () => {
       .get("/orders")
       .then((data) => {
         setOrders(data.reverse());
+        setLoading(false);
       })
-      .catch((err) => console.log("Get Category error", err));
+      .catch((err) => {
+        console.log("Get Category error", err);
+        setLoading(false);
+      });
   };
 
   const goToDetail = (id) => {
@@ -36,28 +43,32 @@ const CategoryList = () => {
   return (
     <>
       <Navbar />
-      <Table>
-        <Tr>
-          <Th>ID</Th>
-          <Th>Customer ID</Th>
-          <Th>Order Date</Th>
-          <Th>Detail</Th>
-        </Tr>
-        {orders.map((item) => {
-          return (
-            <Tr>
-              <Td>{item.id}</Td>
-              <Td> ${item.customerId}</Td>
-              <Td>{item.orderDate}</Td>
-              <Td>
-                <Button onClick={() => goToDetail(item.id)}>
-                  Order Detail
-                </Button>
-              </Td>
-            </Tr>
-          );
-        })}
-      </Table>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Table>
+          <Tr>
+            <Th>ID</Th>
+            <Th>Customer ID</Th>
+            <Th>Order Date</Th>
+            <Th>Detail</Th>
+          </Tr>
+          {orders.map((item) => {
+            return (
+              <Tr>
+                <Td>{item.id}</Td>
+                <Td> ${item.customerId}</Td>
+                <Td>{item.orderDate}</Td>
+                <Td>
+                  <Button onClick={() => goToDetail(item.id)}>
+                    Order Detail
+                  </Button>
+                </Td>
+              </Tr>
+            );
+          })}
+        </Table>
+      )}
     </>
   );
 };

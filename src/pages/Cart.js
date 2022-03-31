@@ -26,11 +26,13 @@ const Cart = () => {
 
   const postOrder = () => {
     const cartOrders = {
-      customerId: uuid(),
+      customerId: "ArdaCoskun",
       orderDate: Date.now(),
       shippedDate: Date.now(),
-      details: [{ ...cart }],
+      details: [...cart],
     };
+
+    console.log(cartOrders.details[0]);
 
     const config = {
       method: "POST",
@@ -47,8 +49,8 @@ const Cart = () => {
         alert(" Your orders have been received");
         setTimeout(() => {
           navigate("/");
+          clearCart();
         }, [2000]);
-
         console.log("Success:", data);
       })
       .catch((error) => {
@@ -286,6 +288,7 @@ const Button = styled.button`
   background-color: black;
   color: white;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 export default Cart;

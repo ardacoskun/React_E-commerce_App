@@ -5,6 +5,8 @@ import Navbar from "./Navbar";
 import Product from "./Product";
 import { useLocation } from "react-router-dom";
 import { baseService } from "../network/services/baseService";
+import Loading from "./Loading";
+import { useAppContext } from "../context/AppContext";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,30 +22,36 @@ const CategoryPage = () => {
 
   const [products, setProducts] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const { loading, setLoading } = useAppContext();
 
   useEffect(() => {
     getProducts();
-  }, [loading]);
+  }, []);
 
   const getProducts = async () => {
     try {
       const data = await baseService.get("/products");
       const filteredData = data.filter((item) => item.categoryId == urlPath);
       setProducts(filteredData);
+      setLoading(false);
     } catch (error) {
       console.log("category detail error", error);
+      setLoading(false);
     }
   };
 
   return (
     <div>
       <Navbar />
-      <Wrapper>
-        {products.map((product) => {
-          return <Product key={product.id} product={product} />;
-        })}
-      </Wrapper>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          {products.map((product) => {
+            return <Product key={product.id} product={product} />;
+          })}
+        </Wrapper>
+      )}
       <Footer />
     </div>
   );

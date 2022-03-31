@@ -38,7 +38,7 @@ const Navbar = () => {
               to="/cart"
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <Badge badgeContent={cart.length}>
+              <Badge badgeContent={cart.length} color="secondary">
                 <ShoppingCartOutlined />
               </Badge>
             </Link>
