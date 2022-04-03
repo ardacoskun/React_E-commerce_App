@@ -21,6 +21,7 @@ const Cart = () => {
         0
       )
     );
+    localStorage.setItem("myCart", JSON.stringify(cart));
   }, [cart]);
 
   const postOrder = () => {

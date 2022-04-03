@@ -7,7 +7,7 @@ const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const initialState = {
-    cart: [],
+    cart: JSON.parse(localStorage.getItem("myCart")) || [],
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
